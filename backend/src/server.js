@@ -22,4 +22,16 @@ connectDB().then(() => {
     console.error(`❌ Unhandled Promise Rejection: ${err.message}`);
     server.close(() => process.exit(1));
   });
+
+  // ✅ Graceful shutdown on process exit signals
+  const shutdown = (signal) => {
+    console.log(`\n🔴 Received ${signal}. Closing server...`);
+    server.close(() => {
+      console.log("🛑 Server closed.");
+      process.exit(0);
+    });
+  };
+
+  process.on("SIGINT", shutdown); // Handle Ctrl+C
+  process.on("SIGTERM", shutdown); // Handle termination (e.g., `kill` command)
 });

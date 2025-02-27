@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import helmet from "helmet";
 import compression from "compression";
 import morgan from "morgan";
+import fileRoutes from "./routes/fileRoutes.js";
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 
 dotenv.config();
@@ -16,6 +17,8 @@ app.use(cors()); // Enable Cross-Origin requests
 app.use(helmet()); // Security headers
 app.use(compression()); // Gzip compression for responses
 app.use(morgan("dev")); // Logging requests
+
+app.use("/api/files", fileRoutes);
 
 // ✅ API Routes
 app.get("/", (req, res) => {
